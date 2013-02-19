@@ -1,0 +1,11 @@
+# -----------------------------------------------------------------------------
+#   compress_combine information
+# -----------------------------------------------------------------------------
+
+# path relative to this file's directory to find all HTML/CSS/JS scripts
+source_directory:  ../web/
+
+# path relative to this file's directory to put compress/combined scripts
+build_directory:   ../build/
+
+# -----------------------------------------------------------------------------
