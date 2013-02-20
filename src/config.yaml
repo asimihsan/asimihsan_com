@@ -3,9 +3,24 @@
 # -----------------------------------------------------------------------------
 
 # path relative to this file's directory to find all HTML/CSS/JS scripts
-source_directory:  ../web/
+web_directory:  ../web/
 
 # path relative to this file's directory to put compress/combined scripts
 build_directory:   ../build/
+
+# path to yui-compressor. On Windows make a .BAT file that calls it, e.g.
+#
+# @echo off
+# java -jar C:\tools\yuicompressor-2.4.7\build\yuicompressor-2.4.7.jar %*
+yuicompress_path:   yuicompressor
+
+# path to pandoc
+pandoc_path:        pandoc
+
+# destination S3 bucket for website
+s3_bucket:          www.asimihsan.com
+
+# manifest filename, for tracking MD5 hashes
+manifest_filename:  manifest_md5.txt
 
 # -----------------------------------------------------------------------------
