@@ -90,7 +90,7 @@ def build_notes(config):
                   footer_filepath = config.footer_template_path,
               )
         logger.debug("executing: '%s'" % cmd)
-        output = subprocess.check_output(cmd)
+        output = subprocess.check_output(cmd, shell=True)
         compress_file_inplace(output_filepath)
         # ---------------------------------------------------------------------
 
