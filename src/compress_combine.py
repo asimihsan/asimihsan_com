@@ -5,15 +5,18 @@ import sys
 import subprocess
 import shutil
 import re
-import gzip
 import boto
 import contextlib
-import hashlib
 from glob import glob
 import posixpath
 import jinja2
+import gzip
 
 from ParsedConfig import ParsedConfig
+from utilities import generator_for_filepaths_in_directory, \
+                      RE_HTML, RE_HTML_CSS_JS, RE_MARKDOWN, \
+                      calculate_hash,                       \
+                      is_gzip_file                          \
 
 # -----------------------------------------------------------------------------
 #   Constants.
@@ -36,18 +39,6 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(message)s")
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 # -----------------------------------------------------------------------------
-
-def generator_for_html_filepaths_in_build_directory(config):
-    RE_HTML = re.compile(".*\.html$")
-    return generator_for_filepaths_in_build_directory(config, RE_HTML)
-
-def generator_for_filepaths_in_build_directory(config, regexp):
-    for root, dirs, files in os.walk(config.build_directory):
-        for filename in files:
-            filepath = os.path.join(root, filename)
-            if not regexp.search(filepath):
-                continue
-            yield filepath
 
 def copy_web_to_build(config):
     logger = logging.getLogger("%s.copy_web_to_build" % APP_NAME)
@@ -80,7 +71,7 @@ def fill_templates_in_build(config):
         header_contents = f_in.read()
     with open(config.footer_template_path) as f_in:
         footer_contents = f_in.read()
-    for filepath in generator_for_html_filepaths_in_build_directory(config):
+    for filepath in generator_for_filepaths_in_directory(RE_HTML, config.build_directory):
         logger.debug("rendering: '%s'" % filepath)
         with open(filepath) as f_in:
             template = jinja2.Template(f_in.read())
@@ -166,25 +157,6 @@ def generate_manifest_file_for_build_directory(config):
                 digest = calculate_hash(filepath)
                 logger.debug("subpath: %s, digest: %s" % (subpath, digest))
                 f_out.write("%s\t%s\n" % (subpath, digest))
-
-def calculate_hash(filepath, algorithm=hashlib.md5, length=16*1024):
-    m = algorithm()
-    with open(filepath) as f_in:
-        while True:
-            buf = f_in.read(length)
-            if not buf:
-                break
-            m.update(buf)
-    return m.hexdigest()
-
-def is_gzip_file(filepath):
-    try:
-        with contextlib.closing(gzip.open(filepath, "rb")) as f_in:
-            f_in.readline()
-    except IOError:
-        return False
-    else:
-        return True
 
 def main():
     logger = logging.getLogger("%s.main" % APP_NAME)

@@ -12,7 +12,6 @@ class ParsedConfig(object):
         self._header_template = config["header_template"]
         self._footer_template = config["footer_template"]
         self._yuicompress_path = os.path.abspath(config["yuicompress_path"])
-        self._pandoc_path = os.path.abspath(config["pandoc_path"])
         self._s3_bucket = config["s3_bucket"]
         self._manifest_filename = config["manifest_filename"]
 
@@ -20,6 +19,9 @@ class ParsedConfig(object):
         self._notes_source_directory = os.path.abspath(os.path.join(current_directory, config["notes_source_directory"]))
         self._notes_s3_bucket = config["notes_s3_bucket"]
         self._notes_input_to_output = config["notes_input_to_output"]
+        self._notes_css_filepath = os.path.abspath(os.path.join(current_directory, config["notes_css_filepath"]))
+        self._notes_pandoc_command_template = config["notes_pandoc_command_template"]
+        self._notes_manifest_filename = config["notes_manifest_filename"]
 
     @property
     def web_directory(self):
@@ -32,10 +34,6 @@ class ParsedConfig(object):
     @property
     def yuicompress_path(self):
         return self._yuicompress_path
-
-    @property
-    def pandoc_path(self):
-        return self._pandoc_path
 
     @property
     def s3_bucket(self):
@@ -78,4 +76,16 @@ class ParsedConfig(object):
         for elem in self._notes_input_to_output:
             output.update(elem)
         return output
+
+    @property
+    def notes_css_filepath(self):
+        return self._notes_css_filepath
+
+    @property
+    def notes_pandoc_command_template(self):
+        return self._notes_pandoc_command_template
+
+    @property
+    def notes_manifest_filename(self):
+        return self._notes_manifest_filename
 

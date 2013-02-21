@@ -21,9 +21,6 @@ footer_template:         _footer.html
 # java -jar C:\tools\yuicompressor-2.4.7\build\yuicompressor-2.4.7.jar %*
 yuicompress_path:       yuicompressor
 
-# path to pandoc
-pandoc_path:            pandoc
-
 # destination S3 bucket for website
 s3_bucket:              www.asimihsan.com
 
@@ -47,6 +44,23 @@ notes_s3_bucket:        aifiles
 
 # input -> output filename mappings for notes
 notes_input_to_output:
-    -   "[course] natural language processing.md":        "courses/nlp-coursera-2013/notes/nlp.html"
+    -   "[course] natural language processing.md":              "courses/nlp-coursera-2013/notes/nlp.html"
+    -   "[course] programming_languages_cs-262.md":             "courses/programming-languages-udacity-2013/notes/programming_languages.html"
+    -   "[course] human computer interaction - 2012 - 002.md":  "courses/human-computer-interaction-coursera-2013/notes/hci.html"
+    -   "[course] social network analysis - 2012 - 001.md":     "courses/social-network-analysis-2012/notes/social_network_analysis.html" 
 
+# CSS file to use when building notes with pandoc. Must be called "_pandoc.css"
+# (or match the CSS file referenced in the 'notes_pandoc_command_template' 
+# variable.
+notes_css_filepath:     ./notes_css/_pandoc.css
+
+# template to execute pandoc and generate an HTML file. required:
+# - 'pandoc_path', path to pandoc, as 
+# - 'input_filepath', full filepath to input markdown file.
+# - 'output_filepath', full filepath to output HTML file.
+# - 'header_filepath', full filepath to the header
+# - 'footer_filepath', full filepath to the footer
+notes_pandoc_command_template:      "pandoc \"${input_filepath}\" -o \"${output_filepath}\" --include-in-header=\"${header_filepath}\" --include-after-body=\"${footer_filepath}\" --mathjax --standalone --table-of-contents --smart --css \"_pandoc.css\""
+
+notes_manifest_filename:      notes_manifest_md5.txt
 # -----------------------------------------------------------------------------
