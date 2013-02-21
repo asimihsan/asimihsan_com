@@ -11,6 +11,7 @@ import contextlib
 import hashlib
 from glob import glob
 import posixpath
+import jinja2
 
 from ParsedConfig import ParsedConfig
 
@@ -36,6 +37,18 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 # -----------------------------------------------------------------------------
 
+def generator_for_html_filepaths_in_build_directory(config):
+    RE_HTML = re.compile(".*\.html$")
+    return generator_for_filepaths_in_build_directory(config, RE_HTML)
+
+def generator_for_filepaths_in_build_directory(config, regexp):
+    for root, dirs, files in os.walk(config.build_directory):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            if not regexp.search(filepath):
+                continue
+            yield filepath
+
 def copy_web_to_build(config):
     logger = logging.getLogger("%s.copy_web_to_build" % APP_NAME)
     logger.debug("entry. config.web_directory: %s, config.build_directory: %s" % (config.web_directory, config.build_directory))
@@ -46,6 +59,35 @@ def copy_web_to_build(config):
     if os.path.isdir(config.build_directory):
         shutil.rmtree(config.build_directory)
     shutil.copytree(config.web_directory, config.build_directory)
+    # -------------------------------------------------------------------------
+
+def fill_templates_in_build(config):
+    logger = logging.getLogger("%s.fill_templates_in_build" % APP_NAME)
+    logger.debug("entry. config.build_directory: %s" % config.build_directory)
+
+    # -------------------------------------------------------------------------
+    #   Validate assumptions.
+    # -------------------------------------------------------------------------
+    assert(os.path.isdir(config.templates_directory))
+    assert(os.path.isfile(config.header_template_path))
+    assert(os.path.isfile(config.footer_template_path))
+    # -------------------------------------------------------------------------
+
+    # -------------------------------------------------------------------------
+    #   HTML files are all jinja2 templates. Fill in header and footer.
+    # -------------------------------------------------------------------------
+    with open(config.header_template_path) as f_in:
+        header_contents = f_in.read()
+    with open(config.footer_template_path) as f_in:
+        footer_contents = f_in.read()
+    for filepath in generator_for_html_filepaths_in_build_directory(config):
+        logger.debug("rendering: '%s'" % filepath)
+        with open(filepath) as f_in:
+            template = jinja2.Template(f_in.read())
+        output = template.render(header = header_contents,
+                                 footer = footer_contents)
+        with open(filepath, "w") as f_out:
+            f_out.write(output)
     # -------------------------------------------------------------------------
 
 def compress_files_in_build_directory(config):
@@ -156,6 +198,7 @@ def main():
 
     config = ParsedConfig(CONFIG_FILEPATH)
     copy_web_to_build(config)
+    fill_templates_in_build(config)
     compress_files_in_build_directory(config)
     generate_manifest_file_for_build_directory(config)
     upload_build_directory_to_s3(config)

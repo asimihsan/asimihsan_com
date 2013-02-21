@@ -3,24 +3,50 @@
 # -----------------------------------------------------------------------------
 
 # path relative to this file's directory to find all HTML/CSS/JS scripts
-web_directory:  ../web/
+web_directory:          ../web/
 
 # path relative to this file's directory to put compress/combined scripts
-build_directory:   ../build/
+build_directory:        ../build/
+
+# HTML templates directory
+templates_directory:     ./templates/
+
+# HTML templates for header and footer
+header_template:         _header.html
+footer_template:         _footer.html
 
 # path to yui-compressor. On Windows make a .BAT file that calls it, e.g.
 #
 # @echo off
 # java -jar C:\tools\yuicompressor-2.4.7\build\yuicompressor-2.4.7.jar %*
-yuicompress_path:   yuicompressor
+yuicompress_path:       yuicompressor
 
 # path to pandoc
-pandoc_path:        pandoc
+pandoc_path:            pandoc
 
 # destination S3 bucket for website
-s3_bucket:          www.asimihsan.com
+s3_bucket:              www.asimihsan.com
 
 # manifest filename, for tracking MD5 hashes
-manifest_filename:  manifest_md5.txt
+manifest_filename:      manifest_md5.txt
+
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+#   upload_notes information.
+# -----------------------------------------------------------------------------
+
+# path within which to build notes
+notes_build_directory:  ../build_notes/
+
+# where the notes live
+notes_source_directory: ../../notes/
+
+# S3 bucket for the notes
+notes_s3_bucket:        aifiles
+
+# input -> output filename mappings for notes
+notes_input_to_output:
+    -   "[course] natural language processing.md":        "courses/nlp-coursera-2013/notes/nlp.html"
 
 # -----------------------------------------------------------------------------
