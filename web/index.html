@@ -16,8 +16,8 @@
     <meta name="author" content="Asim Ihsan">
 
     <!-- The styles -->
-    <link href="css/custom.css" rel="stylesheet">
     <link href="css/bootstrap-app.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 
     {{ header }}
 
@@ -47,10 +47,8 @@
 					<a class="brand" href=".">Asim Ihsan</a>
 					<div class="nav-collapse">
 						<ul class="nav">
-							<li class="active"><a href="index.html#courses">Courses</a></li>
-							<li><a href="#">Activity</a></li>
-						</ul>
-						<ul class="nav">
+							<li class="active"><a href="#">Activity</a></li>
+							<li><a href="#">About</a></li>
 							<li><a href="http://www.google.com/recaptcha/mailhide/d?k=01PWfXjk3oqzksrfeHsqYnHw==&c=LTwlzANXe85_49vRq3t0ZOLCn98oqKRQDabJQUVwqM8="><i class="icon-envelope"></i> Me</a></li>
 						 </ul>	
 					</div><!-- /.nav-collapse -->	
@@ -78,8 +76,18 @@
 		<div class="inner-intro">
 			<div class="container">
 				<div class="row">
-					<div class="span12">
-                        <h2>You may find <a href="#courses">courses</a> I'm taking and projects I've worked on below, or <a href="#">catch up</a> on my readings and written articles. I'm also <a href="https://www.github.com/asimihsan">on Github</a>.</h2>
+                    <div class="span6">
+                        <h2>Articles</h2>
+                        <table id="articles-table" class="table">
+                            <thead>
+                                <td></td>
+                                <td></td>
+                            </thead>
+                            <tbody>
+                                <td><span class="label label-warning">in progress</span></td>
+                                <td>2013-03-06 &gt;&gt; <a href="http://www.asimihsan.com/articles/going_faster_with_python.html">Going Faster with Python</a></td>
+                            </tbody>
+                        </table>
 					</div>
 				</div>
 			</div>

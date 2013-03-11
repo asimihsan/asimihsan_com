@@ -51,7 +51,7 @@ p {
 		background: none !important;
 	}
 	.navbar .nav li a {
-		color: white;
+		/*color: white;*/
 		font-family: 'Source Sans Pro', Verdana, sans-serif !important;
 		font-style: normal;
 		font-weight: 400 !important;
@@ -78,7 +78,7 @@ p {
 	/*text-shadow: 0 1px 1px white;	*/
 	}
 	.inner-intro {
-		padding: 20px 0;
+		/*padding: 20px 0;*/
 		color: #2B2B2C;
 	}
 	.inner-intro p {
@@ -407,4 +407,14 @@ p {
 	.wii {
 		margin: 10px auto !important;
 	}
+}
+
+table#articles-table.table tbody tr:hover td,
+table#articles-table.table tbody tr:hover th {
+    background-color: transparent;
+}
+
+table#articles-table.table {
+    font-size: 18px;
+    line-height: 1.5em;
 }
