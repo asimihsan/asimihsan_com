@@ -102,7 +102,7 @@ def upload_build_directory_to_s3(config):
     logger = logging.getLogger("%s.upload_build_directory_to_s3" % APP_NAME)
     logger.debug("entry. config.build_directory: %s, config.s3_bucket: %s" % (config.build_directory, config.s3_bucket))
 
-    with contextlib.closing(boto.connect_s3()) as conn:
+    with contextlib.closing(boto.s3.connect_to_region('eu-west-1')) as conn:
         with contextlib.closing(boto.connect_cloudfront()) as conn_cloudfront:
             cloudfront_distribution = [elem for elem in conn_cloudfront.get_all_distributions() if config.s3_bucket in elem.origin.dns_name][0]
             cloudfront_distribution = cloudfront_distribution.get_distribution()
